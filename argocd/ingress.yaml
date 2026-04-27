@@ -3,10 +3,6 @@ kind: Ingress
 metadata:
   name: argocd-server-ingress
   namespace: argocd
-  annotations:
-    traefik.ingress.kubernetes.io/router.entrypoints: websecure
-    traefik.ingress.kubernetes.io/service.serversscheme: https # Keep this, it tells Traefik the backend is HTTPS
-    traefik.ingress.kubernetes.io/service.serverstransport: argocd-server-transport@kubernetescrd
 spec:
   rules:
     - host: argo.local
