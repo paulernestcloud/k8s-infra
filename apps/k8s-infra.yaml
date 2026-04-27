@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: infra-management
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/paulernestcloud/k8s-infra.git
+    targetRevision: HEAD
+    path: argocd # It looks at the 'argocd/' folder in your repo
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
