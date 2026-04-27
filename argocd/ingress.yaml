@@ -1,15 +1,14 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: argocd-server-ingress
+  name: argocd-server
   namespace: argocd
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
-    # Change these two lines:
-    traefik.ingress.kubernetes.io/service.serversscheme: http
+    traefik.ingress.kubernetes.io/service.serversscheme: https
 spec:
   rules:
-    - host: argo.local
+    - host: argo.lan # <-- avoid .local
       http:
         paths:
           - path: /
@@ -18,4 +17,4 @@ spec:
               service:
                 name: argocd-server
                 port:
-                  name: http
+                  name: https
