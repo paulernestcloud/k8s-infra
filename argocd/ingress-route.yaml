@@ -1,0 +1,29 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: argocd-server
+  namespace: argocd
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    # Standard Web Traffic
+    - kind: Rule
+      match: Host(`argo.lan`)
+      priority: 10
+      services:
+        - name: argocd-server
+          port: 80 # ArgoCD usually uses port 80 for its internal service
+    # gRPC Traffic (Required for the ArgoCD CLI)
+    - kind: Rule
+      match: Host(`argo.lan`) && Headers(`Content-Type`, `application/grpc`)
+      priority: 11
+      services:
+        - name: argocd-server
+          port: 80
+          scheme: h2c # Uses HTTP/2 Cleartext for gRPC
+  tls:
+    # If using a self-signed or internal cert for .lan, ensure this secret exists
+    secretName: argocd-server-tls
+    domains:
+      - main: argo.lan
