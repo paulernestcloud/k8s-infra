@@ -7,7 +7,6 @@ spec:
   destination:
     namespace: monitoring
     server: https://kubernetes.default.svc
-
   source:
     repoURL: https://prometheus-community.github.io/helm-charts
     chart: kube-prometheus-stack
@@ -18,9 +17,13 @@ spec:
           adminPassword: admin
           service:
             type: ClusterIP
-
+        prometheus:
+          prometheusSpec:
+            additionalScrapeConfigs:
+              - job_name: 'external-node-exporter'
+                static_configs:
+                  - targets: ['192.168.100.79:9100']
   project: default
-
   syncPolicy:
     automated:
       prune: true
