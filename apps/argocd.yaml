@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://github.com/paulernestcloud/k8s-infra.git
     targetRevision: HEAD
-    path: infra # It looks at the 'argocd/' folder in your repo
+    path: infra/argocd
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd
