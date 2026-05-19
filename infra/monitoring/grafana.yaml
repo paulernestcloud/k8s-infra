@@ -12,6 +12,7 @@ spec:
     chart: kube-prometheus-stack
     targetRevision: 58.0.0
     helm:
+      skipCrds: false
       values: |
         grafana:
           adminPassword: admin
@@ -20,7 +21,9 @@ spec:
         prometheus:
           enabled: true
           prometheusSpec:
-            # Note the pipe symbol '|' right here:
+            storageSpec:
+              emptyDir:
+                medium: Memory
             additionalScrapeConfigs: |
               - job_name: 'external-node-exporter'
                 static_configs:
@@ -30,3 +33,7 @@ spec:
     automated:
       prune: true
       selfHeal: true
+    # --- ADD THIS SYNC OPTION AS A SAFEGUARD ---
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true # Helps handle massive CRD schema payload sizes
