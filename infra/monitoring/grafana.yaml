@@ -20,6 +20,9 @@ spec:
           adminPassword: admin
           service:
             type: ClusterIP
+          env:
+            GF_ANGULAR_SUPPORT_ENABLED: "true"
+            GF_PANELS_DISABLE_ANGULAR_WARNING: "true" 
         prometheus:
           enabled: true
           prometheusSpec:
