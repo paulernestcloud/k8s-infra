@@ -4,12 +4,18 @@ metadata:
   name: external-node-exporter
   namespace: monitoring
   labels:
-    release: monitoring
+    release: monitoring  # Must match your core kube-prometheus-stack release label
 spec:
   selector:
     matchLabels:
       app: external-node-exporter
+  # ─── ADD THIS LINE TO FORCE THE JOB LABEL TO BE 'node-exporter' ───
+  jobLabel: app
   endpoints:
     - port: metrics
       interval: 15s
       path: /metrics
+      # ─── ALTERNATIVELY, ENFORCE IT VIA EXPLICIT RELABELING ───
+      relabelings:
+        - targetLabel: job
+          replacement: node-exporter
