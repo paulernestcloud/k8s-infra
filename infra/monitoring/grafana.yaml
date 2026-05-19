@@ -3,50 +3,37 @@ kind: Application
 metadata:
   name: monitoring
   namespace: argocd
-
 spec:
-  project: default
-
   destination:
-    server: https://kubernetes.default.svc
     namespace: monitoring
-
+    server: https://kubernetes.default.svc
   source:
     repoURL: https://prometheus-community.github.io/helm-charts
     chart: kube-prometheus-stack
-    # targetRevision: 58.0.0
-    targetRevision: 82.8.0
-
+    targetRevision: 62.6.0
     helm:
       skipCrds: false
       values: |
         grafana:
           adminPassword: admin
-
           service:
             type: ClusterIP
-
-          defaultDashboardsEnabled: true
-          forceDeployDashboards: true
-
         prometheus:
           enabled: true
-
           prometheusSpec:
             storageSpec:
               emptyDir:
                 medium: Memory
-
             additionalScrapeConfigs: |
               - job_name: 'external-node-exporter'
                 static_configs:
                   - targets: ['192.168.100.79:9100']
-
+  project: default
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
-
+    # --- ADD THIS SYNC OPTION AS A SAFEGUARD ---
     syncOptions:
       - ServerSideApply=true
       - CreateNamespace=true
