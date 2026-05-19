@@ -10,8 +10,8 @@ spec:
   source:
     repoURL: https://prometheus-community.github.io/helm-charts
     chart: kube-prometheus-stack
-    # targetRevision: 85.0.2
-    targetRevision: 58.0.0
+    targetRevision: 85.0.2
+    # targetRevision: 58.0.0
     # targetRevision: 62.6.0 
     helm:
       skipCrds: false
@@ -20,9 +20,6 @@ spec:
           adminPassword: admin
           service:
             type: ClusterIP
-          env:
-            GF_ANGULAR_SUPPORT_ENABLED: "true"
-            GF_PANELS_DISABLE_ANGULAR_WARNING: "true" 
         prometheus:
           enabled: true
           prometheusSpec:
