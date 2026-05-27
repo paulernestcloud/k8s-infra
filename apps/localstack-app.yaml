@@ -1,0 +1,26 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: localstack
+  namespace: argocd
+spec:
+  project: default
+  source:
+    chart: localstack
+    repoURL: https://helm.localstack.cloud
+    targetRevision: 0.6.* # Locks to a minor version while getting patches
+    helm:
+      values: |
+        # Custom Helm values go here
+        service:
+          type: ClusterIP # Use ClusterIP for internal cluster traffic
+        persistence:
+          enabled: true
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: localstack # Target namespace for LocalStack
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    # createNamespace: true
