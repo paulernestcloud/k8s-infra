@@ -12,8 +12,8 @@ spec:
     helm:
       values: |
         image:
-          repository: localstack/localstack
-          tag: latest
+          name: localstack/localstack
+          tag: 3.4.0
         service:
           type: ClusterIP # Use ClusterIP for internal cluster traffic
         persistence:
