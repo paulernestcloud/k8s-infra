@@ -11,11 +11,13 @@ spec:
     targetRevision: 0.6.* # Locks to a minor version while getting patches
     helm:
       values: |
-        # Custom Helm values go here
+        image:
+          repository: localstack/localstack
+          tag: latest
         service:
           type: ClusterIP # Use ClusterIP for internal cluster traffic
         persistence:
-          enabled: true
+          enabled: false
   destination:
     server: https://kubernetes.default.svc
     namespace: localstack # Target namespace for LocalStack
