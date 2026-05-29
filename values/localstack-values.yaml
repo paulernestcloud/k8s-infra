@@ -1,0 +1,29 @@
+service:
+  type: ClusterIP
+
+persistence:
+  enabled: true
+  size: 10Gi
+
+resources:
+  requests:
+    cpu: 500m
+    memory: 512Mi
+  limits:
+    cpu: 1
+    memory: 1Gi
+
+extraEnvVars:
+  - name: SERVICES
+    value: >
+      ec2,elb,elbv2,autoscaling,
+      iam,sts,s3,rds,dynamodb,
+      lambda,logs,cloudwatch,
+      apigateway,route53,
+      secretsmanager,ssm
+
+  - name: DEBUG
+    value: "1"
+
+  - name: PERSISTENCE
+    value: "1"
