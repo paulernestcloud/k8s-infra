@@ -3,26 +3,27 @@ kind: Application
 metadata:
   name: localstack
   namespace: argocd
+
 spec:
   project: default
-
-  source:
-    repoURL: https://localstack.github.io/helm-charts
-    chart: localstack
-    targetRevision: 0.6.24
-
-    helm:
-      valueFiles:
-        - $values/values/localstack-values.yaml
-
-  sources:
-    - repoURL: https://github.com/paulernestcloud/terraform-aws-3tier-webapp.git
-      targetRevision: main
-      ref: values
 
   destination:
     server: https://kubernetes.default.svc
     namespace: localstack
+
+  sources:
+    # Helm chart
+    - repoURL: https://localstack.github.io/helm-charts
+      chart: localstack
+      targetRevision: 0.6.27
+      helm:
+        valueFiles:
+          - $values/values/localstack-values.yaml
+
+    # Your GitOps repo
+    - repoURL: https://github.com/paulernestcloud/terraform-aws-3tier-webapp
+      targetRevision: main
+      ref: values
 
   syncPolicy:
     automated:
