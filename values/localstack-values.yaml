@@ -1,9 +1,3 @@
-# Enforce the v4.x container engine explicitly
-image:
-  repository: localstack/localstack
-  tag: "4.0.3"
-  pullPolicy: IfNotPresent
-
 service:
   type: ClusterIP
 
@@ -20,13 +14,16 @@ resources:
     memory: 1Gi
 
 extraEnvVars:
-  # Required by Helm chart 0.7.0+ (Pass your token, or a mock value if using community tier)
-  - name: LOCALSTACK_AUTH_TOKEN
-    value: "mock-auth-token-value"
+  - name: SERVICES
+    value: >
+      ec2,elb,elbv2,autoscaling,
+      iam,sts,s3,rds,dynamodb,
+      lambda,logs,cloudwatch,
+      apigateway,route53,
+      secretsmanager,ssm
 
-  # Optional log verbosity toggle
   - name: DEBUG
     value: "1"
 
-  # Note: The old 'SERVICES' variable is removed because LocalStack v4.x 
-  # automatically lazy-loads all APIs on-demand when called!
+  - name: PERSISTENCE
+    value: "1"
