@@ -3,7 +3,6 @@ kind: Application
 metadata:
   name: localstack
   namespace: argocd
-
 spec:
   project: default
 
@@ -12,15 +11,15 @@ spec:
     namespace: localstack
 
   sources:
-    # Helm chart
+    # 1. The Official Helm Chart Repo targeted to the latest 0.7.0 structure
     - repoURL: https://localstack.github.io/helm-charts
       chart: localstack
-      targetRevision: 0.6.27
+      targetRevision: 0.7.0
       helm:
         valueFiles:
           - $values/values/localstack-values.yaml
 
-    # Your GitOps repo
+    # 2. Your dedicated GitOps Repo containing your values directory overrides
     - repoURL: https://github.com/paulernestcloud/terraform-aws-3tier-webapp
       targetRevision: main
       ref: values
@@ -29,6 +28,5 @@ spec:
     automated:
       prune: true
       selfHeal: true
-
     syncOptions:
       - CreateNamespace=true
